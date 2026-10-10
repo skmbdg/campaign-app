@@ -419,7 +419,10 @@ function renderDashboard() {
 
     // Fallback: If phone is using dummy sales but has real cloud achievements, use cloud timestamp
     const allAchs = window.db.getAchievements() || [];
-    if (allAchs.length > 0 && (maxDate === "15/10/2026" || maxDate === "-")) {
+    // We consider it dummy data if sales is very small (like the 4 default rows) or empty
+    const isDummyData = (!window.db.getSales() || window.db.getSales().length <= 5);
+    
+    if (allAchs.length > 0 && (isDummyData || maxDate === "15/10/2026" || maxDate === "-")) {
        let latestCalc = "";
        allAchs.forEach(a => { if (a.calculatedAt && a.calculatedAt > latestCalc) latestCalc = a.calculatedAt; });
        if (latestCalc) {
