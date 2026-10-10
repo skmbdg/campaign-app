@@ -121,15 +121,16 @@ async function loadCloudSnapshotsFromSupabase() {
 
 
 async function initApp() {
+  // Load cloud snapshots & user accounts from Supabase Cloud at startup first
+  // This ensures window.db is populated with the latest master users BEFORE SSO validation
+  await loadCloudSnapshotsFromSupabase();
+
   // Check if invoked via Portal SSO JWT token or portal parameter
   const ssoResult = window.auth.checkAndProcessPortalSSO();
   if (ssoResult.redirected) {
     // Automatically redirected back to portal on SSO failure
     return;
   }
-
-  // Load cloud snapshots & user accounts from Supabase Cloud at startup
-  await loadCloudSnapshotsFromSupabase();
 
   // Check auth session
   const currentUser = window.auth.getCurrentUser();
