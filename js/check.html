@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script>
+    window.onerror = function(msg, url, line, col, err) {
+      document.body.innerHTML += '<h1 style="color:red">Syntax Error: ' + msg + ' at line ' + line + ':' + col + '</h1>';
+    };
+  </script>
+  <script src="app.js"></script>
+</head>
+<body>
+  <h1>Checking syntax...</h1>
+</body>
+</html>
