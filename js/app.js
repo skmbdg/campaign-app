@@ -100,7 +100,11 @@ async function loadCloudSnapshotsFromSupabase() {
     }
 
     if (allRows.length > 0 && window.db) {
+
+      // DEBUG LOG
+      console.log("CLOUD ROWS[0]:", allRows[0]);
       window.db.saveCloudSnapshotsToLocal(allRows);
+
       showToast(`Terhubung ke Supabase Cloud: Berhasil mengunduh & memulihkan ${allRows.length} record snapshot`, "info");
       if (typeof updateUserBadge === "function") updateUserBadge();
       if (typeof applyRolePermissions === "function") applyRolePermissions();
@@ -415,7 +419,7 @@ function renderDashboard() {
 
     // Fallback: If phone is using dummy sales but has real cloud achievements, use cloud timestamp
     const allAchs = window.db.getAchievements() || [];
-    if (allAchs.length > 0 && maxDate === "15/10/2026") {
+    if (allAchs.length > 0 && (maxDate === "15/10/2026" || maxDate === "-")) {
        let latestCalc = "";
        allAchs.forEach(a => { if (a.calculatedAt && a.calculatedAt > latestCalc) latestCalc = a.calculatedAt; });
        if (latestCalc) {
